@@ -2,21 +2,27 @@
     <Page>
         <ActionBar title="timeline"/>
           <GridLayout verticalAlignment="top" columns="50,150,*" rows="70,auto,auto"  orientation="horizontal" class="post" >
-              
-                <ListView class="list-group" for="item in lists" @itemTap="onItemTap" style="height:1250px">
-                    <v-template>
-                    <FlexboxLayout flexDirection="row" class="list-group-item">
-                        <Label :text="item.id" class="list-group-item-heading" style="width: 100%" />
-                        
-                        <Label :text="item.title" class="list-group-item-heading" style="width: 100%" />
-                    </FlexboxLayout>
-                    </v-template>
-                </ListView>
+              <!-- Image with stretch property ("none", "aspectFill" and "aspectFit") -->
+              <Image row="0" col="0" rowSpan="1" src="https://www.pngitem.com/pimgs/m/78-786501_black-avatar-png-user-icon-png-transparent-png.png"  stretch="aspectFill" class="avatar"></Image>
+              <Label row="0" col="1" rowSpan="1" class="name" :text="msg"/>
+              <Label row="0" col="1" rowSpan="1" class="time_post" :text="time_post"/>
+              <Label row="1" col="0" colSpan="3"  textWrap="true" class="post_message">
+                <FormattedString >
+                  <Span text="This text has a " />
+                  <Span text="red " style="color: red" />
+                  <Span text="piece of text. " />
+                  <Span text="Also, this bit is italic, " fontStyle="italic" />
+                  <Span text="and this bit is bold." fontWeight="bold" />
+                  <Span text="Start het videogesprek doormiddel van de accepteer knop hieronder in te drukken. De behandelaar start het gesprek vanzelf." fontWeight="bold" />
+                </FormattedString>
+              </Label>
+              <Image row="2" col="0" colSpan="3" src="https://imgcomfort.com/Userfiles/Upload/images/illustration-geiranger.jpg"  stretch="aspectFill" class="Image_post"></Image>
         </GridLayout>
   
     </Page>
     
 </template>
+
 
 <script lang="ts">
     import Vue from 'vue'
@@ -30,7 +36,7 @@
             return {
                 msg: 'User Nameff ',
                 time_post: 'Friday 10:00',
-                lists: []
+                lists: ""
                 
             };
         },
@@ -41,18 +47,15 @@
         },
         mounted() {
 
-            let url = 'https://a6323df33c31.ngrok.io/api/get-post'
-
+            let url = 'http://localhost:8000/api/get-post'
             axios({
                 url: url,
                 method: "GET",
-                headers: { "Content-Type": "application/json" ,"Accept": "application/json"},
-                
+                headers: { "Content-Type": "application/json" },
             }).then((response) => {
-                
                 const result = response.data;
-                console.log(result);
                 this.lists = result;
+                console.log(result);
             }, (e) => {
                 console.log(e);
             });
